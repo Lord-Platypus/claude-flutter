@@ -1,0 +1,38 @@
+name: new_bloc_test
+description: >
+  Generates a bloc_test file for a BLoC. Mocks each injected usecase
+  with mocktail and tests the Started event plus each custom bloc_event
+  for success and error state transitions.
+version: 0.1.0+1
+
+vars:
+  feature_name:
+    type: string
+    description: Feature folder name (plural snake_case, e.g. "users")
+    prompt: What is the feature name?
+
+  entity_name:
+    type: string
+    description: Entity class name (singular PascalCase, e.g. "User")
+    prompt: What is the entity name?
+
+  page_name:
+    type: string
+    description: Page name (PascalCase, e.g. "UsersList")
+    prompt: What is the page name?
+
+  bloc_name:
+    type: string
+    description: BLoC name (PascalCase, e.g. "UsersList")
+    prompt: What is the BLoC name?
+
+  bloc_events:
+    type: list
+    description: Additional event names (strings, e.g. ["LoadUsersEvent"])
+    default: [ ]
+
+  usecases:
+    type: list
+    description: Usecase class names to inject (e.g. ["GetAllUseCase"])
+    default: [ ]
+

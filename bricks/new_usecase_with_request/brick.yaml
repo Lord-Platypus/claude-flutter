@@ -1,0 +1,52 @@
+name: new_usecase_with_request
+description: >
+  Generates a parameterised usecase with a request object.
+  When entity_name is provided, generates a fully wired usecase that injects
+  the repository and delegates to repository.{repository_method_name}(),
+  unpacking the request fields as arguments.
+  When entity_name is empty (standalone mode), generates a stub with TODO.
+version: 0.1.1+1
+
+vars:
+  feature_name:
+    type: string
+    description: Feature folder name (plural recommended)
+    prompt: What is the feature name?
+
+  usecase_name:
+    type: string
+    description: >
+      Full usecase class name including "UseCase" suffix
+      (PascalCase, e.g. "GetByIdUserUseCase"). The snake_case form is used
+      for the directory and file name.
+    prompt: What is the usecase name? (include UseCase suffix, e.g. "GetByIdUserUseCase")
+
+  return_type_name:
+    type: string
+    description: Return type name (e.g. "User")
+    prompt: What is the return type name?
+
+  request_type_name:
+    type: string
+    description: Request type name (singular PascalCase, e.g. "GetByIdRequest")
+    prompt: What is the request type name?
+
+  request_fields:
+    type: list
+    description: Fields of the request object
+    default: [ ]
+
+  entity_name:
+    type: string
+    description: >
+      Entity class name (singular PascalCase, e.g. "User"). When provided,
+      generates a wired usecase with repository injection. Leave empty for stub.
+    default: ""
+
+  repository_method_name:
+    type: string
+    description: >
+      Repository method name to delegate to (camelCase, e.g. "getById").
+      Only used when entity_name is provided.
+    default: ""
+

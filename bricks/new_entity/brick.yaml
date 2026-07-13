@@ -1,0 +1,24 @@
+name: new_entity
+description: Generates entity class, model and dao
+version: 0.1.0+1 # Added required version
+
+vars:
+  feature_name:
+    type: string
+    description: Feature folder name (plural recommended)
+    prompt: What is the feature name? # Good practice to add prompts
+
+  entity_name:
+    type: string
+    description: Entity name (singular)
+    prompt: What is the entity name?
+
+  fields:
+    type: list
+    description: List of fields in the format "name:type" (e.g., "id:int", "name:string"). Each item may also carry an optional "kind" to mark a value-object field — "enum" (type is the enum class), "money" (type "Money"), or "quantity" (type "Quantity"). DateTime/bool are inferred from type. Money/Quantity persist as INTEGER (cents / count) and import core/value_objects/.
+    prompt: Enter the fields (name:type) separated by commas (e.g., "id:int, name:string")
+  # NOTE: `invariants` is intentionally NOT declared here. Declaring it as a list var makes
+  # mason prompt for it whenever a config omits it (breaking plain/no-invariant configs).
+  # Undeclared config keys still flow through to hooks via context.vars, and pre_gen reads
+  # `context.vars['invariants'] ?? const []`. Pass it (and per-field `kind:"enum"`) inside
+  # the --config-path JSON. See docs/bricks.md §4.

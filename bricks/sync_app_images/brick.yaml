@@ -1,0 +1,9 @@
+name: sync_app_images
+description: >
+  Scans the assets/ folder at the project root, groups image files by their
+  immediate subfolder, and overwrites lib/theme/token/light_app_images.dart
+  with a generated LightAppImages class. Run with --on-conflict overwrite.
+version: 0.1.0+1
+
+vars: { }
+

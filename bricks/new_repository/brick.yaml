@@ -1,0 +1,43 @@
+name: new_repository
+description: >
+  Generates a full repository layer (domain abstract + data impl + local datasource pair)
+  for a given entity. Also runs new_entity to generate entity/model/DAO — no code duplication.
+  
+  The 'methods' list drives every generated file. Each method entry:
+    - name:        dart method name, e.g. "getUsers"
+    - return_type: verbatim Dart type, e.g. "List<User>" or "void"
+    - has_param:   true | false
+    - param_name:  dart param name, e.g. "id"   (ignored when has_param=false)
+    - param_type:  dart param type, e.g. "int"   (ignored when has_param=false)
+
+version: 0.1.0+1
+
+vars:
+  feature_name:
+    type: string
+    description: Feature folder name (plural recommended, e.g. "users")
+    prompt: What is the feature name?
+
+  entity_name:
+    type: string
+    description: Entity class name (singular, e.g. "User")
+    prompt: What is the entity name?
+
+  fields:
+    type: list
+    description: >
+      Fields for the entity in "name:type" format.
+      Example: [{"name":"id","type":"int"},{"name":"title","type":"String"}]
+    prompt: "Enter entity fields as objects with 'name' and 'type' keys"
+
+  methods:
+    type: list
+    description: >
+      Repository methods to generate. Each item must have:
+        name        – dart method name            (e.g. "getAll")
+        return_type – verbatim Dart return type   (e.g. "List<User>")
+        has_param   – boolean                     (true/false)
+        param_name  – dart param name             (e.g. "id", required if has_param=true)
+        param_type  – dart param type             (e.g. "int", required if has_param=true)
+    prompt: "Enter repository methods as objects"
+

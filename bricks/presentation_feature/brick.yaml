@@ -1,0 +1,45 @@
+name: presentation_feature
+description: >
+  Scaffolds a presentation-only Clean Architecture feature (no entity/repository).
+  Use when a feature has UI and BLoC but delegates all data operations to other
+  features via cross-feature use case injection at the route level.
+
+  Internally calls:
+    mason make new_page  (once per entry in 'pages')
+
+  After generation, fill in the TODO comments in the route provider with the
+  cross-feature providers from the features whose use cases this feature uses.
+
+  See docs/bricks.md for the full JSON invocation schema and example.
+
+version: 0.1.0+1
+
+vars:
+  feature_name:
+    type: string
+    description: >
+      Feature folder name, plural snake_case (e.g. "cash_register").
+      Becomes lib/features/{feature_name}/.
+    prompt: "Feature name? (plural snake_case, e.g. cash_register)"
+
+  pages:
+    type: list
+    description: >
+      One entry per page/BLoC pair to generate via new_page. Each item must be
+      an object with:
+        page_name   – PascalCase page name   (e.g. "CashRegister")
+        bloc_name   – PascalCase BLoC name   (e.g. "CashRegister")
+        bloc_events – list of extra event name strings, may be []
+        usecases    – list of usecase class names to inject from other features
+                      (e.g. ["GetAllItemUseCase", "CreateSaleUseCase"])
+        path        – (optional) custom route path (e.g. "/cash-register")
+      Example:
+        [
+          {
+            "page_name": "CashRegister",
+            "bloc_name": "CashRegister",
+            "bloc_events": ["AddItemToCashRegisterEvent", "CompleteSaleEvent"],
+            "usecases": ["GetAllItemUseCase", "CreateSaleUseCase"],
+            "path": "/cash-register"
+          }
+        ]
