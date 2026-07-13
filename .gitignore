@@ -1,0 +1,4 @@
+# Mason hook build cache (regenerated automatically)
+bricks/**/hooks/build/
+bricks/**/hooks/pubspec.lock
+.mason/
