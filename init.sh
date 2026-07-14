@@ -123,4 +123,31 @@ EOF
   echo "    wrote CLAUDE.md"
 fi
 
+# --- SessionStart hook: claude-flutter update reminder -----------------------
+HOOK_CMD="$SUBMODULE_REL/tool/check_submodule_update.sh"
+SETTINGS=".claude/settings.json"
+echo "==> update-reminder SessionStart hook"
+mkdir -p .claude
+if command -v jq >/dev/null 2>&1; then
+  [[ -f "$SETTINGS" ]] || echo '{}' > "$SETTINGS"
+  if jq -e --arg c "$HOOK_CMD" \
+       '[.. | objects | select(.command? == $c)] | length > 0' "$SETTINGS" >/dev/null 2>&1 \
+     && [[ "$(jq -r --arg c "$HOOK_CMD" '[.. | objects | select(.command? == $c)] | length' "$SETTINGS")" != "0" ]]; then
+    echo "    ok    hook already present in $SETTINGS"
+  else
+    tmp="$(mktemp)"
+    jq --arg c "$HOOK_CMD" \
+      '.hooks.SessionStart = ((.hooks.SessionStart // []) + [{"hooks":[{"type":"command","command":$c}]}])' \
+      "$SETTINGS" > "$tmp" && mv "$tmp" "$SETTINGS"
+    echo "    add   SessionStart hook -> $HOOK_CMD in $SETTINGS"
+  fi
+else
+  echo "    jq not found — add this SessionStart hook to $SETTINGS manually:"
+  cat <<EOF
+    { "hooks": { "SessionStart": [ { "hooks": [
+      { "type": "command", "command": "$HOOK_CMD" }
+    ] } ] } }
+EOF
+fi
+
 echo "==> done. Fresh clones must run: git submodule update --init"
