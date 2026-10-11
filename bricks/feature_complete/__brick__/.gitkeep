@@ -1,4 +1,0 @@
-# feature_complete brick – placeholder
-# All file generation is handled by the pre_gen.dart hook.
-# This file exists only so Mason recognises the __brick__ directory.
-
